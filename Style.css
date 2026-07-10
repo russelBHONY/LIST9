@@ -1,0 +1,70 @@
+/* ==========================================================
+   RESET DE BASE
+   ========================================================== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* ==========================================================
+   PAGE GLOBALE
+   - Fond gris clair
+   - Centrage horizontal et vertical de la feuille A4
+   - Masque les barres de défilement inutiles du body
+   ========================================================== */
+html, body {
+  height: 100%;
+  width: 100%;
+  overflow: hidden;             /* pas de scrollbars sur la page elle-même */
+  background-color: #f2f2f2;    /* fond gris clair demandé */
+  display: flex;
+  align-items: center;          /* centrage vertical */
+  justify-content: center;      /* centrage horizontal */
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+/* ==========================================================
+   FEUILLE A4
+   - Ratio A4 réel : 210mm x 297mm => 210/297 ≈ 0.7071
+   - On fixe une hauteur "proche de la réalité" sur desktop,
+     puis on laisse la largeur se calculer via aspect-ratio.
+   - --a4-height est piloté dynamiquement par script.js
+     pour rester responsive sur mobile.
+   ========================================================== */
+.page-a4 {
+  --a4-height: 90vh;                 /* valeur par défaut, ajustée en JS */
+  height: var(--a4-height);
+  aspect-ratio: 210 / 297;           /* conserve les proportions A4 */
+  max-width: 95vw;                   /* évite le débordement sur petits écrans */
+  background: #ffffff;
+  box-shadow: 0 4px 25px rgba(0, 0, 0, 0.25); /* effet "feuille de papier" */
+  overflow: hidden;                  /* masque tout débordement interne */
+  position: relative;
+}
+
+/* ==========================================================
+   IFRAME CONTENANT LE PDF
+   - Occupe toute la feuille A4
+   - Pas de bordure, pas de scrollbar visible superflue
+   ========================================================== */
+#pdf-viewer {
+  width: 100%;
+  height: 100%;
+  border: none;
+  display: block;
+}
+
+/* ==========================================================
+   RESPONSIVE MOBILE
+   - Sur petits écrans, on privilégie la largeur disponible
+     plutôt qu'une hauteur fixe en vh, pour éviter les feuilles
+     trop étroites ou trop grandes.
+   ========================================================== */
+@media (max-width: 768px) {
+  .page-a4 {
+    width: 95vw;
+    height: auto;              /* la hauteur est déduite du ratio */
+    max-height: 90vh;
+  }
+}
